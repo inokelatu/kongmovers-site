@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       min-height: 100vh;
       background: linear-gradient(160deg, #0d2020 0%, #0d2b2b 60%, #0a1a1a 100%);
@@ -17,7 +16,6 @@
       font-family: 'Plus Jakarta Sans', sans-serif;
       padding: 20px;
     }
-
     .chat-wrap {
       width: 100%;
       max-width: 560px;
@@ -29,8 +27,6 @@
       overflow: hidden;
       box-shadow: 0 0 0 1px rgba(185,151,58,0.25), 0 30px 80px rgba(0,0,0,0.7);
     }
-
-    /* HEADER */
     .chat-header {
       background: linear-gradient(135deg, #0d2b2b 0%, #1a3a38 100%);
       padding: 16px 20px;
@@ -39,19 +35,15 @@
       gap: 14px;
       border-bottom: 2px solid #b8973a;
     }
-
     .logo-img {
-      width: 54px;
-      height: 54px;
+      width: 54px; height: 54px;
       border-radius: 12px;
       object-fit: cover;
       border: 2px solid #b8973a;
       box-shadow: 0 4px 14px rgba(185,151,58,0.3);
       flex-shrink: 0;
     }
-
     .header-text { flex: 1; }
-
     .header-text h1 {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 26px;
@@ -59,9 +51,7 @@
       letter-spacing: 2px;
       line-height: 1;
     }
-
     .header-text h1 span { color: #b8973a; }
-
     .header-text .tagline {
       font-size: 11px;
       color: #7aaa98;
@@ -70,14 +60,7 @@
       text-transform: uppercase;
       margin-top: 3px;
     }
-
-    .status-col {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 4px;
-    }
-
+    .status-col { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
     .online-pill {
       background: rgba(34,197,94,0.12);
       border: 1px solid rgba(34,197,94,0.35);
@@ -90,7 +73,6 @@
       color: #4ade80;
       font-weight: 600;
     }
-
     .online-dot {
       width: 7px; height: 7px;
       background: #22c55e;
@@ -98,12 +80,7 @@
       box-shadow: 0 0 6px #22c55e;
       animation: pulse 2s infinite;
     }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .same-day-badge {
       background: linear-gradient(90deg, #b8973a, #d4b05a);
       border-radius: 20px;
@@ -112,8 +89,6 @@
       color: #0d2b2b;
       font-weight: 700;
     }
-
-    /* MESSAGES */
     .messages-area {
       flex: 1;
       overflow-y: auto;
@@ -125,26 +100,19 @@
       scrollbar-width: thin;
       scrollbar-color: #1a3a38 transparent;
     }
-
-    .bubble-wrap {
-      display: flex;
-      align-items: flex-end;
-      gap: 9px;
-    }
-
+    .bubble-wrap { display: flex; align-items: flex-end; gap: 9px; }
     .bubble-wrap.user { flex-direction: row-reverse; }
-
     .avatar {
-      width: 34px;
-      height: 34px;
+      width: 34px; height: 34px;
       border-radius: 10px;
       overflow: hidden;
       flex-shrink: 0;
       border: 1.5px solid #b8973a;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      background: #132828;
     }
-
     .avatar img { width: 100%; height: 100%; object-fit: cover; }
-
     .bubble {
       max-width: 78%;
       padding: 12px 16px;
@@ -156,7 +124,6 @@
       border: 1px solid #1e3e3a;
       border-bottom-left-radius: 4px;
     }
-
     .bubble.user {
       background: linear-gradient(135deg, #b8973a, #c9a84c);
       color: #0d2020;
@@ -165,10 +132,8 @@
       border-bottom-left-radius: 18px;
       border-bottom-right-radius: 4px;
     }
-
     .typing {
-      display: flex;
-      gap: 5px;
+      display: flex; gap: 5px;
       padding: 14px 18px;
       background: #132828;
       border: 1px solid #1e3e3a;
@@ -176,7 +141,6 @@
       border-bottom-left-radius: 4px;
       align-items: center;
     }
-
     .dot {
       width: 7px; height: 7px;
       background: #b8973a;
@@ -185,103 +149,54 @@
     }
     .dot:nth-child(2) { animation-delay: 0.2s; }
     .dot:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes bounce {
       0%, 80%, 100% { transform: translateY(0); opacity: 0.3; }
       40% { transform: translateY(-7px); opacity: 1; }
     }
-
-    /* SUGGESTIONS */
     .suggestions {
       padding: 10px 18px 6px;
       background: #0a1e1e;
-      display: flex;
-      gap: 7px;
-      flex-wrap: wrap;
+      display: flex; gap: 7px; flex-wrap: wrap;
     }
-
     .chip {
       background: #132828;
       border: 1px solid #2a4a44;
       color: #b8973a;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 12px;
-      font-weight: 500;
+      font-size: 12px; font-weight: 500;
       padding: 7px 13px;
       border-radius: 20px;
       cursor: pointer;
       transition: all 0.18s;
       white-space: nowrap;
     }
-
-    .chip:hover {
-      background: #b8973a;
-      color: #0d2020;
-      border-color: #b8973a;
-      font-weight: 600;
-      transform: translateY(-1px);
-    }
-
-    /* CONTACT BAR */
+    .chip:hover { background: #b8973a; color: #0d2020; border-color: #b8973a; font-weight: 600; }
     .contact-bar {
       padding: 10px 18px;
       background: #0d2020;
-      display: flex;
-      gap: 10px;
+      display: flex; gap: 10px;
       border-top: 1px solid #1a3a38;
     }
-
     .contact-btn {
       flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
       padding: 9px 14px;
       border-radius: 12px;
       font-family: 'Plus Jakarta Sans', sans-serif;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 13px; font-weight: 600;
       text-decoration: none;
       transition: all 0.18s;
-      cursor: pointer;
     }
-
-    .phone-btn {
-      background: #132828;
-      border: 1px solid #2a4a44;
-      color: #e8e0d0;
-    }
-
-    .phone-btn:hover {
-      background: #1e3e3a;
-      border-color: #b8973a;
-      color: #b8973a;
-      transform: translateY(-1px);
-    }
-
-    .book-btn {
-      background: linear-gradient(135deg, #b8973a, #d4b05a);
-      border: none;
-      color: #0d2020;
-      box-shadow: 0 4px 12px rgba(185,151,58,0.3);
-    }
-
-    .book-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 18px rgba(185,151,58,0.5);
-    }
-
-    /* INPUT */
+    .phone-btn { background: #132828; border: 1px solid #2a4a44; color: #e8e0d0; }
+    .phone-btn:hover { background: #1e3e3a; border-color: #b8973a; color: #b8973a; }
+    .book-btn { background: linear-gradient(135deg, #b8973a, #d4b05a); border: none; color: #0d2020; }
+    .book-btn:hover { transform: translateY(-1px); }
     .input-area {
       padding: 14px 18px;
       background: #0d2020;
-      display: flex;
-      gap: 10px;
-      align-items: flex-end;
+      display: flex; gap: 10px; align-items: flex-end;
       border-top: 1px solid #1a3a38;
     }
-
     .input-area textarea {
       flex: 1;
       background: #132828;
@@ -291,31 +206,22 @@
       color: #e8e0d0;
       font-family: 'Plus Jakarta Sans', sans-serif;
       font-size: 14px;
-      resize: none;
-      outline: none;
+      resize: none; outline: none;
       transition: border-color 0.2s;
       max-height: 100px;
       line-height: 1.5;
     }
-
     .input-area textarea::placeholder { color: #3a6060; }
     .input-area textarea:focus { border-color: #b8973a; }
-
     .send-btn {
-      width: 44px;
-      height: 44px;
+      width: 44px; height: 44px;
       background: linear-gradient(135deg, #b8973a, #d4b05a);
-      border: none;
-      border-radius: 13px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      border: none; border-radius: 13px;
+      display: flex; align-items: center; justify-content: center;
       cursor: pointer;
       transition: transform 0.15s, opacity 0.15s;
       flex-shrink: 0;
-      box-shadow: 0 4px 12px rgba(185,151,58,0.35);
     }
-
     .send-btn:hover:not(:disabled) { transform: translateY(-2px); }
     .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
     .send-btn svg { width: 18px; height: 18px; fill: #0d2020; }
@@ -324,16 +230,13 @@
 <body>
   <div class="chat-wrap">
     <div class="chat-header">
-      <img class="logo-img" src="logo.png" alt="KongMovers Logo" onerror="this.style.display='none'"/>
+      <img class="logo-img" src="logo.png" alt="KongMovers" onerror="this.style.display='none'"/>
       <div class="header-text">
         <h1>KONG <span>MOVERS</span></h1>
         <div class="tagline">Moving Specialist Support</div>
       </div>
       <div class="status-col">
-        <div class="online-pill">
-          <div class="online-dot"></div>
-          Online
-        </div>
+        <div class="online-pill"><div class="online-dot"></div>Online</div>
         <div class="same-day-badge">⚡ SAME-DAY AVAILABLE</div>
       </div>
     </div>
@@ -341,7 +244,7 @@
     <div class="messages-area" id="messages"></div>
 
     <div class="suggestions" id="suggestions">
-      <button class="chip" onclick="sendMessage('I need a same-day move 🚨')">I need a same-day move 🚨</button>
+      <button class="chip" onclick="sendMessage('I need a same-day move')">I need a same-day move 🚨</button>
       <button class="chip" onclick="sendMessage('Get me a quote')">Get me a quote</button>
       <button class="chip" onclick="sendMessage('What services do you offer?')">What services do you offer?</button>
       <button class="chip" onclick="sendMessage('I need to move a piano')">I need to move a piano</button>
@@ -368,15 +271,10 @@
 
   <script>
     const BACKEND_URL = "https://kongmovers-chatbot-backend-production.up.railway.app/chat";
-    const LOGO_URL = "https://i.imgur.com/placeholder.png"; // will use logo.png if uploaded
 
     let messages = [
-      {
-        role: "assistant",
-        content: "Hey! I'm Marcus, your moving specialist at KongMovers 💪 Whether you need us there today or you're planning ahead, we handle all moves — same-day, local, and long-distance. What can I help you with?"
-      }
+      { role: "assistant", content: "Hey! I'm Marcus, your moving specialist at KongMovers 💪 Whether you need us there today or you're planning ahead, we handle all moves — same-day, local, and long-distance. What can I help you with?" }
     ];
-
     let isLoading = false;
 
     const messagesEl = document.getElementById("messages");
@@ -384,7 +282,6 @@
     const sendBtn = document.getElementById("sendBtn");
     const suggestionsEl = document.getElementById("suggestions");
 
-    // Render initial message
     renderMessages();
 
     inputEl.addEventListener("input", () => {
@@ -394,10 +291,7 @@
     });
 
     inputEl.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
+      if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
 
     function renderMessages() {
@@ -405,14 +299,12 @@
       messages.forEach(msg => {
         const wrap = document.createElement("div");
         wrap.className = `bubble-wrap ${msg.role}`;
-
         if (msg.role === "assistant") {
           const avatar = document.createElement("div");
           avatar.className = "avatar";
-          avatar.innerHTML = `<img src="logo.png" alt="KongMovers" onerror="this.parentElement.innerHTML='🦍'"/>`;
+          avatar.innerHTML = `<img src="logo.png" alt="Kong" onerror="this.parentElement.innerHTML='🦍'"/>`;
           wrap.appendChild(avatar);
         }
-
         const bubble = document.createElement("div");
         bubble.className = `bubble ${msg.role}`;
         bubble.textContent = msg.content;
@@ -422,30 +314,25 @@
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    function addTypingIndicator() {
+    function showTyping() {
       const wrap = document.createElement("div");
       wrap.className = "bubble-wrap assistant";
       wrap.id = "typing";
-      wrap.innerHTML = `
-        <div class="avatar"><img src="logo.png" alt="KongMovers" onerror="this.parentElement.innerHTML='🦍'"/></div>
-        <div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      `;
+      wrap.innerHTML = `<div class="avatar"><img src="logo.png" onerror="this.parentElement.innerHTML='🦍'"/></div><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>`;
       messagesEl.appendChild(wrap);
       messagesEl.scrollTop = messagesEl.scrollHeight;
     }
 
-    function removeTypingIndicator() {
-      const typing = document.getElementById("typing");
-      if (typing) typing.remove();
+    function hideTyping() {
+      const t = document.getElementById("typing");
+      if (t) t.remove();
     }
 
     async function sendMessage(text) {
       const userText = text || inputEl.value.trim();
       if (!userText || isLoading) return;
 
-      // Hide suggestions after first message
       suggestionsEl.style.display = "none";
-
       messages.push({ role: "user", content: userText });
       inputEl.value = "";
       inputEl.style.height = "auto";
@@ -453,7 +340,7 @@
       isLoading = true;
 
       renderMessages();
-      addTypingIndicator();
+      showTyping();
 
       try {
         const response = await fetch(BACKEND_URL, {
@@ -462,40 +349,20 @@
           body: JSON.stringify({ messages: messages.map(m => ({ role: m.role, content: m.content })) }),
         });
 
-        removeTypingIndicator();
+        const data = await response.json();
+        hideTyping();
 
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let assistantText = "";
+        const reply = data.reply || "Sorry, something went wrong. Please call us at (385) 266-5700!";
+        messages.push({ role: "assistant", content: reply });
+        renderMessages();
 
-        messages.push({ role: "assistant", content: "" });
-
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value);
-          const lines = chunk.split("\n").filter(l => l.startsWith("data: "));
-          for (const line of lines) {
-            const data = line.slice(6);
-            if (data === "[DONE]") continue;
-            try {
-              const parsed = JSON.parse(data);
-              if (parsed.type === "content_block_delta" && parsed.delta?.text) {
-                assistantText += parsed.delta.text;
-                messages[messages.length - 1].content = assistantText;
-                renderMessages();
-              }
-            } catch {}
-          }
-        }
       } catch (err) {
-        removeTypingIndicator();
+        hideTyping();
         messages.push({ role: "assistant", content: "Sorry, something went wrong. Please try again or call us at (385) 266-5700!" });
         renderMessages();
       } finally {
         isLoading = false;
         sendBtn.disabled = !inputEl.value.trim();
-        inputEl.focus();
       }
     }
   </script>
