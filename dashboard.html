@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcus Analytics — KongMovers</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0c0f;
+    --surface: #13131a;
+    --surface2: #1a1a24;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #f0efe8;
+    --muted: #888780;
+    --green: #1D9E75;
+    --green-dim: rgba(29,158,117,0.15);
+    --green-bright: #3DCFA0;
+    --amber: #EF9F27;
+    --red: #E24B4A;
+    --font: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: rgba(12,12,15,0.92);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+
+  .logo-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--green);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .btn {
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-green {
+    background: var(--green);
+    border-color: var(--green);
+    color: #fff;
+  }
+
+  .btn-green:hover { background: var(--green-bright); border-color: var(--green-bright); }
+
+  main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+
+  .page-sub {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: var(--border2); }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    font-family: var(--mono);
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-sub {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .stat-value.green { color: var(--green-bright); }
+  .stat-value.amber { color: var(--amber); }
+
+  .charts-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 16px;
+    margin-bottom: 1.5rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .card-title {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+
+  .card-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .legend {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .legend span {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .chart-wrap {
+    position: relative;
+    width: 100%;
+    height: 180px;
+  }
+
+  .question-row {
+    margin-bottom: 12px;
+  }
+
+  .question-row:last-child { margin-bottom: 0; }
+
+  .question-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+    font-size: 12px;
+  }
+
+  .question-text {
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 78%;
+  }
+
+  .question-count { color: var(--muted); flex-shrink: 0; }
+
+  .progress-bar {
+    background: rgba(255,255,255,0.06);
+    border-radius: 4px;
+    height: 5px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    background: var(--green);
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.6s ease;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    table-layout: fixed;
+  }
+
+  th {
+    text-align: left;
+    padding: 0 0 10px;
+    color: var(--muted);
+    font-weight: 400;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  tr:last-child td { border-bottom: none; }
+
+  .badge {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: var(--mono);
+  }
+
+  .badge-green { background: var(--green-dim); color: var(--green-bright); }
+  .badge-gray { background: rgba(255,255,255,0.06); color: var(--muted); }
+
+  .empty {
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  .loading {
+    font-size: 13px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  #last-updated {
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+  }
+
+  @media (max-width: 700px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .charts-grid { grid-template-columns: 1fr; }
+    main { padding: 1rem; }
+    header { padding: 0 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">M</div>
+    Marcus Analytics
+  </div>
+  <div class="header-right">
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      <span id="last-updated">Loading...</span>
+    </div>
+    <button class="btn" onclick="loadData()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+      Refresh
+    </button>
+  </div>
+</header>
+
+<main>
+  <p class="page-title">KongMovers — Marcus dashboard</p>
+  <p class="page-sub">Live conversation analytics from your AI support bot</p>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total conversations</div>
+      <div class="stat-value" id="stat-total">—</div>
+      <div class="stat-sub" id="stat-total-sub">Loading...</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Resolution rate</div>
+      <div class="stat-value green" id="stat-res">—</div>
+      <div class="stat-sub" id="stat-res-sub">Loading...</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Avg response time</div>
+      <div class="stat-value amber" id="stat-avg">—</div>
+      <div class="stat-sub">seconds per conversation</div>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+    <div class="card">
+      <div class="card-title">Conversations over time</div>
+      <div class="card-sub">Daily breakdown of resolved vs open</div>
+      <div class="legend">
+        <span><span class="legend-dot" style="background:#1D9E75;"></span>Resolved</span>
+        <span><span class="legend-dot" style="background:#444441;"></span>Unresolved</span>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="convChart" role="img" aria-label="Conversations over time bar chart">Daily conversation counts.</canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Top questions</div>
+      <div class="card-sub">What customers ask Marcus most</div>
+      <div id="top-questions"><p class="loading">Loading...</p></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:12px;">Recent conversations</div>
+    <div id="recent-table"><p class="loading">Loading...</p></div>
+  </div>
+</main>
+
+<script>
+const SUPABASE_URL = 'https://siyxpxccrxskktvesgol.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_5papYL7IP-jZb6RXW6h5DQ_j2SSQyfa';
+
+let chart;
+
+async function fetchConversations() {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/conversations?select=*&order=created_at.desc&limit=500`, {
+    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+  });
+  return await res.json();
+}
+
+function timeAgo(dateStr) {
+  const diff = Math.floor((Date.now() - new Date(dateStr)) / 1000);
+  if (diff < 60) return diff + 's ago';
+  if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+  if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+  return Math.floor(diff/86400) + 'd ago';
+}
+
+function buildTopQuestions(rows) {
+  const counts = {};
+  rows.forEach(r => {
+    if (!r.user_message) return;
+    const key = r.user_message.trim().slice(0, 45);
+    counts[key] = (counts[key] || 0) + 1;
+  });
+  const sorted = Object.entries(counts).sort((a,b) => b[1]-a[1]).slice(0,5);
+  const max = sorted[0]?.[1] || 1;
+  const el = document.getElementById('top-questions');
+  if (!sorted.length) { el.innerHTML = '<p class="empty">No data yet</p>'; return; }
+  el.innerHTML = sorted.map(([q,c]) => `
+    <div class="question-row">
+      <div class="question-meta">
+        <span class="question-text">${q}</span>
+        <span class="question-count">${c}</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${Math.round((c/max)*100)}%"></div></div>
+    </div>`).join('');
+}
+
+function buildTable(rows) {
+  const el = document.getElementById('recent-table');
+  if (!rows.length) { el.innerHTML = '<p class="empty">No conversations yet — send Marcus a message!</p>'; return; }
+  el.innerHTML = `<table>
+    <thead><tr>
+      <th style="width:38%;">Message</th>
+      <th style="width:18%;">When</th>
+      <th style="width:14%;">Duration</th>
+      <th style="width:30%;">Status</th>
+    </tr></thead>
+    <tbody>${rows.slice(0,8).map(r => `<tr>
+      <td>${(r.user_message||'').slice(0,40)}</td>
+      <td style="color:#888780;">${timeAgo(r.created_at)}</td>
+      <td style="color:#888780;">${r.duration_seconds ? r.duration_seconds+'s' : '—'}</td>
+      <td><span class="badge ${r.resolved ? 'badge-green':'badge-gray'}">${r.resolved ? 'resolved':'open'}</span></td>
+    </tr>`).join('')}</tbody>
+  </table>`;
+}
+
+function buildChart(rows) {
+  const dayCounts = {};
+  rows.forEach(r => {
+    const d = new Date(r.created_at).toLocaleDateString('en-US', {month:'short', day:'numeric'});
+    if (!dayCounts[d]) dayCounts[d] = {res:0, unres:0};
+    if (r.resolved) dayCounts[d].res++; else dayCounts[d].unres++;
+  });
+  const labels = Object.keys(dayCounts).slice(-10);
+  if (chart) chart.destroy();
+  chart = new Chart(document.getElementById('convChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label:'Resolved', data:labels.map(l=>dayCounts[l].res), backgroundColor:'#1D9E75', borderRadius:4, stack:'s' },
+        { label:'Unresolved', data:labels.map(l=>dayCounts[l].unres), backgroundColor:'#444441', borderRadius:4, stack:'s' }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ display:false } },
+      scales:{
+        x:{ stacked:true, grid:{ display:false }, ticks:{ color:'#888780', font:{ size:11, family:"'DM Mono'" }, autoSkip:false, maxRotation:45 } },
+        y:{ stacked:true, grid:{ color:'rgba(255,255,255,0.05)' }, ticks:{ color:'#888780', font:{ size:11 } }, beginAtZero:true }
+      }
+    }
+  });
+}
+
+async function loadData() {
+  document.getElementById('last-updated').textContent = 'Refreshing...';
+  try {
+    const rows = await fetchConversations();
+    if (!Array.isArray(rows)) throw new Error('Bad response from Supabase');
+
+    const total = rows.length;
+    const resolved = rows.filter(r => r.resolved).length;
+    const resRate = total > 0 ? Math.round((resolved/total)*100) : 0;
+    const durations = rows.filter(r => r.duration_seconds).map(r => r.duration_seconds);
+    const avgDur = durations.length ? Math.round(durations.reduce((a,b)=>a+b,0)/durations.length) : 0;
+
+    document.getElementById('stat-total').textContent = total;
+    document.getElementById('stat-total-sub').textContent = resolved + ' resolved · ' + (total-resolved) + ' open';
+    document.getElementById('stat-res').textContent = resRate + '%';
+    document.getElementById('stat-res-sub').textContent = resolved + ' of ' + total + ' chats resolved';
+    document.getElementById('stat-avg').textContent = avgDur + 's';
+    document.getElementById('last-updated').textContent = 'Live · ' + new Date().toLocaleTimeString();
+
+    buildTopQuestions(rows);
+    buildTable(rows);
+    buildChart(rows);
+  } catch(e) {
+    document.getElementById('last-updated').textContent = 'Error — check console';
+    console.error(e);
+  }
+}
+
+loadData();
+setInterval(loadData, 60000);
+</script>
+</body>
+</html>
