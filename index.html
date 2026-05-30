@@ -224,6 +224,14 @@
     }
     .send-btn:hover:not(:disabled) { transform: translateY(-2px); }
     .send-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .bubble strong { color: #d4b05a; font-weight: 700; }
+    .bubble.user strong { color: #0d2020; }
+    .bubble .bullet {
+      display: block;
+      padding-left: 4px;
+      margin: 3px 0;
+    }
+    .bubble br + br { display: block; content: ''; margin-top: 4px; }
     .send-btn svg { width: 18px; height: 18px; fill: #0d2020; }
   </style>
 </head>
@@ -273,7 +281,7 @@
     const BACKEND_URL = "https://kongmovers-chatbot-backend-production.up.railway.app/chat";
 
     let messages = [
-      { role: "assistant", content: "Hey! I'm Marcus, your moving specialist at KongMovers 💪 Whether you need us there today or you're planning ahead, we handle all moves — same-day, local, and long-distance. What can I help you with?" }
+      { role: "assistant", content: "Hey! I'm Marcus, your moving specialist at KongMovers 💪\n\nWhether you need us **today** or you're planning ahead — we handle it all:\n• Same-day moves\n• Local & long-distance\n• Packing, storage & specialty items\n\nWhat can I help you with?" }
     ];
     let isLoading = false;
 
@@ -294,6 +302,16 @@
       if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
 
+    function formatText(text) {
+      // Convert **bold** to <strong>
+      text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      // Convert bullet points • to styled spans
+      text = text.replace(/•\s(.+)/g, '<span class="bullet">• $1</span>');
+      // Convert line breaks to <br>
+      text = text.replace(/\n/g, '<br>');
+      return text;
+    }
+
     function renderMessages() {
       messagesEl.innerHTML = "";
       messages.forEach(msg => {
@@ -307,7 +325,11 @@
         }
         const bubble = document.createElement("div");
         bubble.className = `bubble ${msg.role}`;
-        bubble.textContent = msg.content;
+        if (msg.role === "assistant") {
+          bubble.innerHTML = formatText(msg.content);
+        } else {
+          bubble.textContent = msg.content;
+        }
         wrap.appendChild(bubble);
         messagesEl.appendChild(wrap);
       });
@@ -358,7 +380,7 @@
 
       } catch (err) {
         hideTyping();
-        messages.push({ role: "assistant", content: "Sorry, something went wrong. Please try again or call us at (385) 266-5700!" });
+        messages.push({ role: "assistant", content: "Error: " + err.message });
         renderMessages();
       } finally {
         isLoading = false;
@@ -368,4 +390,3 @@
   </script>
 </body>
 </html>
-
